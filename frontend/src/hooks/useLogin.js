@@ -4,10 +4,9 @@ import { useAuthContext } from "../context/AuthContext";
 
 const useLogin = () => {
   const [loading, setLoading] = useState(false);
-  const {setAuthUser} = useAuthContext();
+  const { setAuthUser } = useAuthContext();
 
   const login = async (username, password) => {
-
     const success = handleInputErrors(username, password);
     if (!success) return;
     setLoading(true);
@@ -36,10 +35,9 @@ const useLogin = () => {
 };
 export default useLogin;
 
-
 function handleInputErrors(username, password) {
     if (!username || !password) {
-        toast.error("Please fill in all fields")
+        toast.error("Please fill in all fields");
         return false;
     }
 

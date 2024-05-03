@@ -7,7 +7,7 @@ const useSignup = () => {
   const { setAuthUser } = useAuthContext();
 
   const signup = async({ fullName, username, password, confirmPassword, gender }) => {
-    const success = handleInputErrors({ fullName, username, password, confirmPassword, gender })
+    const success = handleInputErrors({ fullName, username, password, confirmPassword, gender });
     if (!success) return;
 
     setLoading(true);
@@ -25,7 +25,7 @@ const useSignup = () => {
         });
 
         const data = await res.json();
-        if (data.error){
+        if (data.error) {
             throw new Error(data.error);
         }
         localStorage.setItem("chat-user", JSON.stringify(data));
@@ -41,19 +41,19 @@ const useSignup = () => {
 };
 export default useSignup;
 
-function handleInputErrors({  fullName, username, password, confirmPassword, gender }) {
+function handleInputErrors({ fullName, username, password, confirmPassword, gender }) {
     if ( !fullName || !username || !password || !confirmPassword || !gender ) {
-        toast.error("Please fill in all fields")
+        toast.error("Please fill in all fields");
         return false;
     }
 
     if(password !== confirmPassword) {
-        toast.error("Passwords don't match")
+        toast.error("Passwords do not match");
         return false;
     }
 
     if(password.length < 8){
-        toast.error("Password must be at least 8 characters")
+        toast.error("Password must be at least 8 characters");
         return false;
     }
 

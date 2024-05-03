@@ -12,7 +12,7 @@ export const signup = async (req, res) => {
 
         const user = await User.findOne({ username });
 
-        if(user) {
+        if (user) {
             return res.status(400).json({ error:"Username already exists" });
         }
 
@@ -22,8 +22,8 @@ export const signup = async (req, res) => {
         
         // https://avatar-placeholder.iran.liara.run/
 
-        const boyProfilePic = `https://avatar-placeholder.iran.liara.run/public/boy?username=${username}`
-        const girlProfilePic = `https://avatar-placeholder.iran.liara.run/public/girl?username=${username}`
+        const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
+        const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
 
         const newUser = new User({
             fullName,
@@ -35,7 +35,7 @@ export const signup = async (req, res) => {
 
         if (newUser) {
             // Generate JWT token here
-            await generateTokenAndSetCookie(newUser._id, res);
+            generateTokenAndSetCookie(newUser._id, res);
             await newUser.save();
 
         res.status(201).json({
@@ -47,9 +47,9 @@ export const signup = async (req, res) => {
         } else {
             res.status(400).json({ error: "Invalid user data" });
         }
-    }    catch (error) {
+    } catch (error) {
         console.log("Error in signup controller", error.message);
-        res.status(500).json({ error:"Internal Server Error" });
+        res.status(500).json({ error: "Internal Server Error" });
     }
 };
 
@@ -57,10 +57,11 @@ export const login = async (req, res) => {
    try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
-    const isPasswordCorrect = await bcrypt.compare(password, user?.password || "");
+    const isPasswordCorrect = await bcrypt.compare
+    (password, user?.password || "");
 
     if(!user || !isPasswordCorrect) {
-        return res.status(400).json({ error: "Invalid username and password" });
+        return res.status(400).json({ error: "Invalid username or password" });
     }
 
     generateTokenAndSetCookie(user._id, res);
@@ -72,8 +73,8 @@ export const login = async (req, res) => {
         profilePic: user.profilePic,
     });
    } catch (error) {
-    console.log("Error in login controller", error.message);
-    res.status(500).json({ error: "Internal Server Error" });
+        console.log("Error in login controller", error.message);
+        res.status(500).json({ error: "Internal Server Error" });
    }
 };
 

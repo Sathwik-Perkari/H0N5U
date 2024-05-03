@@ -1,6 +1,6 @@
 import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
-import { getReceiverSocketId } from "../socket/socket.js";
+import { getReceiverSocketId, io } from "../socket/socket.js";
 
 export const sendMessage = async (req, res) => {
     try {
@@ -50,7 +50,7 @@ export const sendMessage = async (req, res) => {
 
 export const getMessages = async (req, res) => {
     try {
-        const { id:userToChatId }= req.params;
+        const { id: userToChatId } = req.params;
         const senderId = req.user._id;
 
         const conversation = await Conversation.findOne({
@@ -63,7 +63,8 @@ export const getMessages = async (req, res) => {
 
         res.status(200).json(messages);       
     } catch (error) {
-        console.log("Error in getMessage controller: ", error.message);
+        console.log("Error in getMessage controller: ",
+        error.message);
         res.status(500).json({ error: "Internal server error" });
     }
 };
